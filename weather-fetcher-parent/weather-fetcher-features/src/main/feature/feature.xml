@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="karaf-rest-weather-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
+
+    <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+    <repository>mvn:org.apache.aries.jax.rs/org.apache.aries.jax.rs.features/1.0.6/xml</repository>
+    
+    <feature name="weather-fetcher-api" version="${project.version}">
+        <bundle>mvn:com.nix.menshykov/weather-fetcher-api/${project.version}</bundle>
+    </feature>
+
+    <feature name="weather-fetcher-impl" version="${project.version}">
+        <feature version="${project.version}">weather-fetcher-api</feature>
+        <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.HttpService)</requirement>
+        <bundle>mvn:com.nix.menshykov/weather-fetcher-impl/${project.version}</bundle>
+        <feature dependency="true">aries-blueprint</feature>
+        <feature version="${cxf.version}" dependency="true">cxf-jaxrs</feature>
+        <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}</bundle>
+        <bundle dependency="true">mvn:com.google.code.gson/gson/${com.gson.version}</bundle>
+        <bundle dependency="true">mvn:org.mapstruct/mapstruct/${org.mapstruct.version}</bundle>
+    </feature>
+</features>
