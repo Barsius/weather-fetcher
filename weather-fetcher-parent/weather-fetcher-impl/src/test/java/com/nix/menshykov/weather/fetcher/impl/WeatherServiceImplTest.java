@@ -6,6 +6,8 @@ import com.nix.menshykov.weather.fetcher.impl.openweather.OpenWeatherProperties;
 import com.nix.menshykov.weather.fetcher.impl.openweather.model.*;
 import com.nix.menshykov.weather.fetcher.impl.openweather.OpenWeatherApi;
 import com.nix.menshykov.weather.fetcher.impl.openweather.mapper.WeatherMapper;
+import com.nix.menshykov.weather.fetcher.persistence.entity.RequestInfo;
+import com.nix.menshykov.weather.fetcher.persistence.repository.RequestInfoRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +24,10 @@ public class WeatherServiceImplTest {
     @Mock
     OpenWeatherProperties propsHolder;
 
+    @Mock
+    RequestInfoRepository requestInfoRepository;
+
+
     @Test
     public void getWeatherByValidCityTest() {
 
@@ -35,7 +41,8 @@ public class WeatherServiceImplTest {
         Mockito.when(propsHolder.getAppId()).thenReturn(TestObjectsCreator.ID);
         Mockito.when(propsHolder.getUnits()).thenReturn(TestObjectsCreator.UNITS);
 
-        WeatherServiceImpl weatherService = new WeatherServiceImpl(openWeatherApi, propsHolder, weatherMapper);
+        Mockito.doNothing().when(requestInfoRepository).add(Mockito.isA(RequestInfo.class));
+        WeatherServiceImpl weatherService = new WeatherServiceImpl(openWeatherApi, propsHolder, weatherMapper, requestInfoRepository);
 
         Assert.assertEquals(weatherService.getWeatherByCity(TestObjectsCreator.COUNTRY_CODE, TestObjectsCreator.CITY), weatherModel);
     }
@@ -47,7 +54,7 @@ public class WeatherServiceImplTest {
                 TestObjectsCreator.UNITS))
                 .thenThrow(new FailedToGetWeatherException("404: failed to load weather"));
         WeatherMapper weatherMapper = WeatherMapper.INSTANCE;
-        WeatherServiceImpl weatherService = new WeatherServiceImpl(openWeatherApi, propsHolder, weatherMapper);
+        WeatherServiceImpl weatherService = new WeatherServiceImpl(openWeatherApi, propsHolder, weatherMapper, requestInfoRepository);
         Mockito.when(propsHolder.getAppId()).thenReturn(TestObjectsCreator.ID);
         Mockito.when(propsHolder.getUnits()).thenReturn(TestObjectsCreator.UNITS);
         weatherService.getWeatherByCity(TestObjectsCreator.COUNTRY_CODE, "InvalidCity");

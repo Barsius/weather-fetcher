@@ -32,6 +32,7 @@
         <argument ref="openWeatherApi"/>
         <argument ref="properties"/>
         <argument ref="weatherMapper"/>
+        <argument ref="requestInfoRepository"/>
     </bean>
 
     <bean id="openWeatherApi" class="com.nix.menshykov.weather.fetcher.impl.openweather.OpenWeatherApiFactory"
@@ -48,6 +49,8 @@
     <bean id="weatherMapper" class="com.nix.menshykov.weather.fetcher.impl.openweather.mapper.WeatherMapperFactory"
           factory-method="create">
     </bean>
+
+    <reference id="requestInfoRepository" interface="com.nix.menshykov.weather.fetcher.persistence.repository.RequestInfoRepository"/>
 
     <cm:property-placeholder persistent-id="props"  update-strategy="reload">
         <cm:default-properties>

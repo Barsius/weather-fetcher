@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>weather-fetcher-parent</artifactId>
+        <groupId>com.nix.menshykov</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <modules>
+        <module>weather-fetcher-persistence-datasource</module>
+        <module>weather-fetcher-persistence-entity</module>
+        <module>weather-fetcher-persistence-repository</module>
+    </modules>
+    <artifactId>weather-fetcher-persistence</artifactId>
+    <name>Apache Karaf :: Weather :: REST :: Persistence</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>${javax.persistence.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${org.mariadb.jdbc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ops4j.pax.jdbc</groupId>
+            <artifactId>pax-jdbc-mariadb</artifactId>
+            <version>${org.ops4j.pax.jdbc.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

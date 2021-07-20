@@ -2,23 +2,52 @@
 <features name="karaf-rest-weather-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
     <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
-    <repository>mvn:org.apache.aries.jax.rs/org.apache.aries.jax.rs.features/1.0.6/xml</repository>
     
     <feature name="weather-fetcher-api" version="${project.version}">
         <bundle>mvn:com.nix.menshykov/weather-fetcher-api/${project.version}</bundle>
     </feature>
 
+    <feature name="weather-fetcher-persistence-entity" version="${project.version}">
+        <bundle>mvn:com.nix.menshykov/weather-fetcher-persistence-entity/${project.version}</bundle>
+    </feature>
+
+    <feature name="weather-fetcher-persistence-datasource" version="${project.version}">
+        <feature>aries-blueprint</feature>
+        <bundle>mvn:com.nix.menshykov/weather-fetcher-persistence-datasource/${project.version}</bundle>
+    </feature>
+
+    <feature name="weather-fetcher-persistence-repository" version="${project.version}">
+        <feature>aries-blueprint</feature>
+        <bundle>mvn:com.nix.menshykov/weather-fetcher-persistence-repository/${project.version}</bundle>
+    </feature>
+
+    <feature name="weather-fetcher-persistence" version="${project.version}">
+        <feature>aries-blueprint</feature>
+        <feature>weather-fetcher-persistence-datasource</feature>
+        <feature>transaction</feature>
+        <feature>jdbc</feature>
+        <feature>jpa</feature>
+        <feature>pax-jdbc-mariadb</feature>
+        <feature>hibernate-orm</feature>
+        <feature>jndi</feature>
+        <bundle dependency="true">mvn:javax.persistence/javax.persistence-api/${javax.persistence.version}</bundle>
+        <bundle dependency="true">mvn:org.mariadb.jdbc/mariadb-java-client/${org.mariadb.jdbc.version}</bundle>
+        <feature>weather-fetcher-persistence-entity</feature>
+        <feature>weather-fetcher-persistence-repository</feature>
+    </feature>
+
     <feature name="weather-fetcher-impl" version="${project.version}">
+        <feature>aries-blueprint</feature>
+        <feature>weather-fetcher-persistence</feature>
         <feature version="${project.version}">weather-fetcher-api</feature>
         <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.HttpService)</requirement>
-        <bundle>mvn:com.nix.menshykov/weather-fetcher-impl/${project.version}</bundle>
-        <feature dependency="true">aries-blueprint</feature>
         <feature version="${cxf.version}" dependency="true">cxf-jaxrs</feature>
         <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}</bundle>
         <bundle>mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}</bundle>
         <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}</bundle>
         <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}</bundle>
-        <bundle dependency="true">mvn:com.google.code.gson/gson/${com.gson.version}</bundle>
         <bundle dependency="true">mvn:org.mapstruct/mapstruct/${org.mapstruct.version}</bundle>
+        <bundle>mvn:com.nix.menshykov/weather-fetcher-impl/${project.version}</bundle>
     </feature>
+
 </features>
