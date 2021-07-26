@@ -35,4 +35,5 @@ public class WeatherServiceImpl implements WeatherService {
     private String getCityAndCode(String city, String code) {
         return String.format("%s,%s", city, code);
     }
+
 }

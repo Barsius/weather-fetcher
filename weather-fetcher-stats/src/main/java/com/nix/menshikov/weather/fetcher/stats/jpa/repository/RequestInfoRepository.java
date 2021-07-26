@@ -1,5 +1,7 @@
-package com.nix.menshikov.weather.fetcher.stats;
+package com.nix.menshikov.weather.fetcher.stats.jpa.repository;
 
+import com.nix.menshikov.weather.fetcher.stats.jpa.entity.RequestInfo;
+import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CountryStatsProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -8,11 +10,11 @@ import java.util.List;
 
 public interface RequestInfoRepository extends JpaRepository<RequestInfo, Integer> {
 
-    @Query("SELECT DISTINCT r.countryCode, r.city, COUNT(r.city) \n" +
+    @Query("SELECT DISTINCT r.countryCode as countryCode, r.city as city, COUNT(r.city) as amount \n" +
             "FROM RequestInfo r \n" +
             "GROUP BY r.city \n" +
             "ORDER BY COUNT(r.city) DESC")
-    List<String> getCitiesByPopularity();
+    List<CountryStatsProjection> getCitiesByPopularity();
 
     long countByTimeBetween(Time start, Time end);
 

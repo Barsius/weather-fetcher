@@ -1,4 +1,4 @@
-package com.nix.menshikov.weather.fetcher.stats;
+package com.nix.menshikov.weather.fetcher.stats.jpa.entity;
 
 import lombok.Data;
 
