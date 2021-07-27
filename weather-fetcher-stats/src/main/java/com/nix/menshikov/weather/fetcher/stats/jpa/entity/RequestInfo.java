@@ -1,6 +1,7 @@
 package com.nix.menshikov.weather.fetcher.stats.jpa.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -8,6 +9,7 @@ import java.sql.Time;
 @Entity
 @Table(name = "`request_info`")
 @Data
+@NoArgsConstructor
 public class RequestInfo {
 
     @Id
@@ -21,5 +23,11 @@ public class RequestInfo {
     private String countryCode;
 
     private Time time;
+
+    public RequestInfo(String city, String countryCode, Time time) {
+        this.city = city;
+        this.countryCode = countryCode;
+        this.time = time;
+    }
 
 }
