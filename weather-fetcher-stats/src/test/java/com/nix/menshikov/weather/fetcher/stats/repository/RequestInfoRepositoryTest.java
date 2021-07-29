@@ -1,7 +1,7 @@
 package com.nix.menshikov.weather.fetcher.stats.repository;
 
-import com.nix.menshikov.weather.fetcher.stats.TestObjectsCreator;
-import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CountryStatsProjection;
+import com.nix.menshikov.weather.fetcher.stats.MockDataRequestInfo;
+import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CityStatsProjection;
 import com.nix.menshikov.weather.fetcher.stats.jpa.repository.RequestInfoRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +23,12 @@ public class RequestInfoRepositoryTest {
 
     @Before
     public void before() {
-        repository.saveAll(TestObjectsCreator.createRequestList());
+        repository.saveAll(MockDataRequestInfo.createRequestList());
     }
 
     @Test
     public void correctMostPopularCityInCitiesByPopularityTest() {
-        List<CountryStatsProjection> countryStats = repository.getCitiesByPopularity();
+        List<CityStatsProjection> countryStats = repository.getCitiesByPopularity();
         assertThat(countryStats.get(0).getCity())
                 .isEqualTo("City1");
     }

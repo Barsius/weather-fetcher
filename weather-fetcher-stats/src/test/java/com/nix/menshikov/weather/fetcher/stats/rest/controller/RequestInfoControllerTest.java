@@ -1,9 +1,7 @@
 package com.nix.menshikov.weather.fetcher.stats.rest.controller;
 
-import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CountryStatsProjection;
-import com.nix.menshikov.weather.fetcher.stats.jpa.repository.RequestInfoRepository;
+import com.nix.menshikov.weather.fetcher.stats.jpa.service.RequestInfoService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,10 +22,7 @@ public class RequestInfoControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private RequestInfoRepository requestInfoRepository;
-
-    @Mock
-    private CountryStatsProjection projection;
+    private RequestInfoService requestInfoService;
 
     @Test
     public void correctAmountOfRequestsBetweenTimesJsonTest() throws Exception {
@@ -35,9 +30,9 @@ public class RequestInfoControllerTest {
         Time end = Time.valueOf("11:00:00");
         long amount = 10;
 
-        when(requestInfoRepository.countByTimeBetween(start, end)).thenReturn(amount);
+        when(requestInfoService.getAmountOfRequestsInPeriodOfTime(start, end)).thenReturn(amount);
 
-        this.mvc.perform(get("/weatherStats/amountBetweenTimes?start=10:00:00&end=11:00:00")
+        this.mvc.perform(get("/weather-stats/requests/amount?start=10:00:00&end=11:00:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.amount", is(10)));

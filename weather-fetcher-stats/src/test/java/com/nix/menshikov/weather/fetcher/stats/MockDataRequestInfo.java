@@ -6,7 +6,7 @@ import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
 
-public class TestObjectsCreator {
+public class MockDataRequestInfo {
 
     public static List<RequestInfo> createRequestList() {
         return Arrays.asList(

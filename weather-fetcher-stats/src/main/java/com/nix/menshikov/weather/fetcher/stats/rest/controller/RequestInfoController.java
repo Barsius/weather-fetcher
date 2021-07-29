@@ -1,7 +1,7 @@
 package com.nix.menshikov.weather.fetcher.stats.rest.controller;
 
-import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CountryStatsProjection;
-import com.nix.menshikov.weather.fetcher.stats.jpa.repository.RequestInfoRepository;
+import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CityStatsProjection;
+import com.nix.menshikov.weather.fetcher.stats.jpa.service.RequestInfoService;
 import com.nix.menshikov.weather.fetcher.stats.rest.model.AmountBetweenTimesModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -14,19 +14,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("weatherStats")
+@RequestMapping("weather-stats")
 public class RequestInfoController {
 
-    private final RequestInfoRepository requestInfoRepository;
+    private final RequestInfoService service;
 
-    @GetMapping("/citiesByPopularity")
-    public List<CountryStatsProjection> getCitiesByPopularity() {
-        return requestInfoRepository.getCitiesByPopularity();
+    @GetMapping("/cities/popularity")
+    public List<CityStatsProjection> getCitiesByPopularity() {
+        return service.getCitiesByPopularity();
     }
 
-    @GetMapping("/amountBetweenTimes")
-    public AmountBetweenTimesModel countRequestsBetweenTimes(@Param("start") Time start, @Param("end") Time end) {
-        long amount = requestInfoRepository.countByTimeBetween(start, end);
+    @GetMapping("/requests/amount")
+    public AmountBetweenTimesModel countAmountOfRequestsInPeriodOfTime(@Param("start") Time start,
+                                                                       @Param("end") Time end) {
+        long amount = service.getAmountOfRequestsInPeriodOfTime(start, end);
         return new AmountBetweenTimesModel(start, end, amount);
     }
 
