@@ -6,6 +6,7 @@ import com.nix.menshikov.weather.fetcher.stats.jpa.service.RequestInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class RequestInfoServiceImpl implements RequestInfoService {
     }
 
     @Override
-    public long getAmountOfRequestsInPeriodOfTime(Time start, Time end) {
-        return repository.countByTimeBetween(start, end);
+    public long getAmountOfRequestsInPeriodOfTimeAndDate(Time timeStart, Time timeEnd, Date dateStart, Date dateEnd) {
+        return repository.countByTimeBetweenAndDateBetween(timeStart, timeEnd, dateStart, dateEnd);
     }
 }

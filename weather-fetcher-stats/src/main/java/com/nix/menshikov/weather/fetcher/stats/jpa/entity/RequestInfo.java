@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
 
 @Entity
@@ -24,10 +25,13 @@ public class RequestInfo {
 
     private Time time;
 
-    public RequestInfo(String city, String countryCode, Time time) {
+    private Date date;
+
+    public RequestInfo(String city, String countryCode, Time time, Date date) {
         this.city = city;
         this.countryCode = countryCode;
         this.time = time;
+        this.date = date;
     }
 
 }

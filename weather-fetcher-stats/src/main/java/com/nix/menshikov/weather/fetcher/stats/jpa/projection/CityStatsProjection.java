@@ -6,8 +6,4 @@ public interface CityStatsProjection {
     String getCity();
     long getAmountOfRequests();
 
-    String setCountryCode(String countryCode);
-    String setCity(String city);
-    long setAmountOfRequests(long amountOfRequests);
-
 }

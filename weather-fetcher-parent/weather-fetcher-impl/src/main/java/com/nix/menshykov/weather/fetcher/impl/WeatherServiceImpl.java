@@ -11,7 +11,7 @@ import com.nix.menshykov.weather.fetcher.persistence.repository.RequestInfoRepos
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 @RequiredArgsConstructor
 public class WeatherServiceImpl implements WeatherService {
@@ -27,7 +27,8 @@ public class WeatherServiceImpl implements WeatherService {
                 properties.getAppId(),
                 properties.getUnits());
 
-        requestInfoRepository.add(new RequestInfo(city, code, new Time(new Date().getTime())));
+        long currentDateInMills = new java.util.Date().getTime();
+        requestInfoRepository.add(new RequestInfo(city, code, new Time(currentDateInMills), new Date(currentDateInMills)));
 
         return weatherMapper.openWeatherModelToWeatherModel(openWeatherModel);
     }

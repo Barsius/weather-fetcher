@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import java.sql.Date;
 import java.sql.Time;
 
 @Entity
@@ -27,10 +28,14 @@ public class RequestInfo {
     @Column(name = "`time`")
     private Time time;
 
-    public RequestInfo(String city, String countryCode, Time time) {
+    @Column(name = "`date`")
+    private Date date;
+
+    public RequestInfo(String city, String countryCode, Time time, Date date) {
         this.city = city;
         this.countryCode = countryCode;
         this.time = time;
+        this.date = date;
     }
 
 }

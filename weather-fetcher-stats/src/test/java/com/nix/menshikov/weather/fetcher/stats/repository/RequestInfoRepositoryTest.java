@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -35,14 +36,16 @@ public class RequestInfoRepositoryTest {
 
     @Test
     public void correctAmountOfRequestsBetweenTimesTest() {
-        long amount = repository.countByTimeBetween(Time.valueOf("09:30:00"), Time.valueOf("11:30:00"));
+        long amount = repository.countByTimeBetweenAndDateBetween(Time.valueOf("09:30:00"), Time.valueOf("11:30:00"),
+                Date.valueOf("2020-08-02"), Date.valueOf("2022-08-02"));
         assertThat(amount)
                 .isEqualTo(2);
     }
 
     @Test
     public void zeroAmountOfRequestsBetweenTimesTest() {
-        long amount = repository.countByTimeBetween(Time.valueOf("22:00:00"), Time.valueOf("23:00:00"));
+        long amount = repository.countByTimeBetweenAndDateBetween(Time.valueOf("22:00:00"), Time.valueOf("23:00:00")
+                , Date.valueOf("2020-08-02"), Date.valueOf("2022-08-02"));
         assertThat(amount)
                 .isEqualTo(0);
     }

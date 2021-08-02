@@ -5,6 +5,7 @@ import com.nix.menshikov.weather.fetcher.stats.jpa.projection.CityStatsProjectio
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface RequestInfoRepository extends JpaRepository<RequestInfo, Intege
             "ORDER BY COUNT(r.city) DESC")
     List<CityStatsProjection> getCitiesByPopularity();
 
-    long countByTimeBetween(Time start, Time end);
+    long countByTimeBetweenAndDateBetween(Time timeStart, Time timeEnd, Date startDate, Date endDate);
 
 }
